@@ -28,7 +28,7 @@ export const insertAnonymousProfile = async (
 
     const profile: Profile = formatProfileImageLinks(ipfsUrl, {
         account,
-        username: "@anonymous",
+        username: "anonymous",
         name: "Anonymous",
         description: "This user does not have a profile",
         image: defaultProfileImageIpfsHash,
