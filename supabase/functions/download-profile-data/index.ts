@@ -55,8 +55,6 @@ Deno.serve(async (req) => {
         metadataUpdateData._tokenId,
     );
 
-    console.log("profile", profile);
-
     if (!profile) {
         return new Response("Profile not found, ignore", { status: 200 });
     }

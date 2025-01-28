@@ -98,6 +98,7 @@ Deno.serve(async (req) => {
         place.id,
         parseFloat(formattedValue) * 100,
         tx_hash,
+        erc20TransferData.from,
       );
     }
   } else {

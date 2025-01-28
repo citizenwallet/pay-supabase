@@ -16,6 +16,7 @@ export interface Order {
     status: "pending" | "paid" | "cancelled";
     description: string;
     tx_hash: string;
+    account: string | null;
 }
 
 export const findOrdersWithTxHash = (
@@ -30,6 +31,7 @@ export const createOrder = (
     placeId: number,
     total: number,
     txHash: string,
+    account: string | null,
 ): Promise<PostgrestResponse<Order>> => {
     return client.from(TABLE_NAME).insert({
         place_id: placeId,
@@ -38,6 +40,7 @@ export const createOrder = (
         items: [],
         status: "paid",
         tx_hash: txHash,
+        account,
     });
 };
 
