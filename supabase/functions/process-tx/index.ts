@@ -12,6 +12,7 @@ import {
 } from "../_citizen-wallet/index.ts";
 import { getServiceRoleClient } from "../_db/index.ts";
 import { type Transaction, upsertTransaction } from "../_db/transactions.ts";
+import { upsertInteraction } from "../_db/interactions.ts";
 import { ensureProfileExists } from "../_citizen-wallet/profiles.ts";
 import {
   createOrder,
@@ -108,9 +109,15 @@ Deno.serve(async (req) => {
   }
 
   const { error } = await upsertTransaction(supabaseClient, transaction);
+
   if (error) {
     console.error("Error inserting transaction:", error);
   }
+
+  await upsertInteraction(
+    supabaseClient,
+    transaction,
+  );
 
   return new Response("notification sent", { status: 200 });
 });

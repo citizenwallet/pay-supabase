@@ -22,7 +22,7 @@ export interface TransactionWithDescription {
 
 const TRANSACTIONS_TABLE = "a_transactions";
 
-export const upsertTransaction = async (
+export const upsertTransaction = (
     client: SupabaseClient,
     transaction: Transaction,
 ) => {
@@ -35,8 +35,18 @@ export const upsertTransactionWithDescription = async (
     client: SupabaseClient,
     transaction: TransactionWithDescription,
 ) => {
-    return client.from(TRANSACTIONS_TABLE).upsert(transaction, {
-        onConflict: "id",
+    // check if exists
+    const { data: existingTransaction } = await client.from(TRANSACTIONS_TABLE)
+        .select("*").eq("id", transaction.id).maybeSingle();
+    if (existingTransaction) {
+        return client.from(TRANSACTIONS_TABLE).update({
+            description: transaction.description,
+        }).eq("id", transaction.id);
+    }
+
+    return client.from(TRANSACTIONS_TABLE).insert({
+        ...transaction,
+        hash: "",
     });
 };
 
@@ -44,6 +54,7 @@ export const getTransactionByHash = (
     client: SupabaseClient,
     hash: string,
 ): Promise<PostgrestSingleResponse<Transaction>> => {
+    // @ts-ignore: cryptic error
     return client.from(TRANSACTIONS_TABLE).select("*").eq("hash", hash)
         .maybeSingle();
 };

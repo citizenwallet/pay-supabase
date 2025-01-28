@@ -25,15 +25,15 @@ Deno.serve(async (req) => {
 
   const {
     hash,
-    extra_data,
+    data,
   } = record;
 
   // Initialize Supabase client
   const supabaseClient = getServiceRoleClient();
 
   let erc20TransferExtraData: ERC20TransferExtraData = { description: "" };
-  if (extra_data) {
-    erc20TransferExtraData = extra_data as ERC20TransferExtraData;
+  if (data) {
+    erc20TransferExtraData = data as ERC20TransferExtraData;
   }
 
   // insert transaction into db
