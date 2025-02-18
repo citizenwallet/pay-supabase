@@ -85,6 +85,7 @@ Deno.serve(async (req) => {
     supabaseClient,
     tx_hash,
   );
+  let placeId: number | null = null;
   if (!orders || orders.length === 0) {
     const { data: places } = await getPlacesByAccount(
       supabaseClient,
@@ -93,6 +94,7 @@ Deno.serve(async (req) => {
 
     const place = places?.[0] ?? null;
     if (place) {
+      placeId = place.id;
       await createOrder(
         supabaseClient,
         place.id,
@@ -118,6 +120,7 @@ Deno.serve(async (req) => {
   await upsertInteraction(
     supabaseClient,
     transaction,
+    placeId,
   );
 
   return new Response("notification sent", { status: 200 });

@@ -6,11 +6,12 @@ const INTERACTIONS_TABLE = "a_interactions";
 export const upsertInteraction = async (
     client: SupabaseClient,
     transaction: Pick<Transaction, "id" | "from" | "to">,
+    place_id: number | null,
 ) => {
     const timestamp = new Date().toISOString();
 
     // First direction: from->to
-     await client
+    await client
         .from(INTERACTIONS_TABLE)
         .upsert(
             {
@@ -20,6 +21,7 @@ export const upsertInteraction = async (
                 updated_at: timestamp,
                 created_at: timestamp,
                 new_interaction: true,
+                place_id: place_id,
             },
             {
                 onConflict: "account,with",
@@ -39,6 +41,7 @@ export const upsertInteraction = async (
             updated_at: timestamp,
             created_at: timestamp,
             new_interaction: true,
+            place_id: place_id,
         }, {
             onConflict: "account,with",
             ignoreDuplicates: false,
