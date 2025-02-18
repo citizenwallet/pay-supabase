@@ -10,6 +10,8 @@ export const upsertInteraction = async (
 ) => {
     const timestamp = new Date().toISOString();
 
+    console.log("interaction with place_id", place_id);
+
     // First direction: from->to
     await client
         .from(INTERACTIONS_TABLE)

@@ -85,7 +85,6 @@ Deno.serve(async (req) => {
     supabaseClient,
     tx_hash,
   );
-  let placeId: number | null = null;
   if (!orders || orders.length === 0) {
     const { data: places } = await getPlacesByAccount(
       supabaseClient,
@@ -94,7 +93,6 @@ Deno.serve(async (req) => {
 
     const place = places?.[0] ?? null;
     if (place) {
-      placeId = place.id;
       await createOrder(
         supabaseClient,
         place.id,
@@ -116,6 +114,19 @@ Deno.serve(async (req) => {
   if (error) {
     console.error("Error inserting transaction:", error);
   }
+
+  let { data: accountPlaces } = await getPlacesByAccount(
+    supabaseClient,
+    erc20TransferData.to,
+  );
+  if (!accountPlaces || accountPlaces.length === 0) {
+    ({ data: accountPlaces } = await getPlacesByAccount(
+      supabaseClient,
+      erc20TransferData.from,
+    ));
+  }
+
+  const placeId = accountPlaces?.[0]?.id ?? null;
 
   await upsertInteraction(
     supabaseClient,
