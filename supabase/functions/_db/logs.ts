@@ -42,3 +42,16 @@ export const readLogs = async (
 
     return data as Log[];
 };
+
+export const getLogByHash = async (
+    client: SupabaseClient,
+    chainId: number,
+    hash: string,
+): Promise<Log | null> => {
+    const { data, error } = await client.from(`${TABLE_NAME}_${chainId}`)
+        .select("*").eq(
+            "hash",
+            hash,
+        ).maybeSingle();
+    return data as Log | null;
+};

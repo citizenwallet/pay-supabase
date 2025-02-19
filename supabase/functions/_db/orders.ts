@@ -26,7 +26,7 @@ export const findOrdersWithTxHash = (
     return client.from(TABLE_NAME).select("*").eq("tx_hash", txHash);
 };
 
-export const createOrder = (
+export const createPaidOrder = (
     client: SupabaseClient,
     placeId: number,
     total: number,
@@ -36,7 +36,7 @@ export const createOrder = (
     return client.from(TABLE_NAME).insert({
         place_id: placeId,
         total,
-        due: total,
+        due: 0,
         items: [],
         status: "paid",
         tx_hash: txHash,
@@ -52,10 +52,12 @@ export const setOrderDescription = (
     return client.from(TABLE_NAME).update({ description }).eq("id", orderId);
 };
 
-export const updateOrderStatus = (
+export const updateOrderPaid = (
     client: SupabaseClient,
     orderId: number,
-    status: "pending" | "paid" | "cancelled",
 ): Promise<PostgrestResponse<Order>> => {
-    return client.from(TABLE_NAME).update({ status }).eq("id", orderId);
+    return client.from(TABLE_NAME).update({ status: "paid", due: 0 }).eq(
+        "id",
+        orderId,
+    );
 };

@@ -5,14 +5,17 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-import { type ERC20TransferExtraData } from "../_citizen-wallet/index.ts";
+import {
+  communityConfig,
+  type ERC20TransferExtraData,
+} from "../_citizen-wallet/index.ts";
 import { getServiceRoleClient } from "../_db/index.ts";
 import {
-  getTransactionByHash,
   type TransactionWithDescription,
   upsertTransactionWithDescription,
 } from "../_db/transactions.ts";
 import { findOrdersWithTxHash, setOrderDescription } from "../_db/orders.ts";
+import { getLogByHash } from "../_db/logs.ts";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();
@@ -42,16 +45,19 @@ Deno.serve(async (req) => {
     description: erc20TransferExtraData.description || "",
   };
 
+  const community = communityConfig();
+
   // attempt to attach description to order if it exists
-  const { data: transactionData } = await getTransactionByHash(
+  const log = await getLogByHash(
     supabaseClient,
+    community.primaryToken.chain_id,
     hash,
   );
 
-  if (transactionData) {
+  if (log) {
     const { data: orders } = await findOrdersWithTxHash(
       supabaseClient,
-      transactionData.hash,
+      log.tx_hash,
     );
     if (orders && orders.length > 0) {
       for (const order of orders) {
@@ -72,7 +78,7 @@ Deno.serve(async (req) => {
     console.error("Error inserting transaction:", error);
   }
 
-  return new Response("notification sent", { status: 200 });
+  return new Response("transaction data processed", { status: 200 });
 });
 
 /* To invoke locally:

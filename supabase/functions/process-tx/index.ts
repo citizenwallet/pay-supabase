@@ -15,9 +15,9 @@ import { type Transaction, upsertTransaction } from "../_db/transactions.ts";
 import { upsertInteraction } from "../_db/interactions.ts";
 import { ensureProfileExists } from "../_citizen-wallet/profiles.ts";
 import {
-  createOrder,
+  createPaidOrder,
   findOrdersWithTxHash,
-  updateOrderStatus,
+  updateOrderPaid,
 } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
 
@@ -93,7 +93,7 @@ Deno.serve(async (req) => {
 
     const place = places?.[0] ?? null;
     if (place) {
-      await createOrder(
+      await createPaidOrder(
         supabaseClient,
         place.id,
         parseFloat(formattedValue) * 100,
@@ -104,7 +104,7 @@ Deno.serve(async (req) => {
   } else {
     if (orders && orders.length > 0) {
       for (const order of orders) {
-        await updateOrderStatus(supabaseClient, order.id, "paid");
+        await updateOrderPaid(supabaseClient, order.id);
       }
     }
   }
@@ -134,7 +134,7 @@ Deno.serve(async (req) => {
     placeId,
   );
 
-  return new Response("notification sent", { status: 200 });
+  return new Response("transaction processed", { status: 200 });
 });
 
 /* To invoke locally:
