@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
     hash,
   );
 
-  if (log) {
+  if (log && erc20TransferExtraData.description) {
     const { data: orders } = await findOrdersWithTxHash(
       supabaseClient,
       log.tx_hash,
