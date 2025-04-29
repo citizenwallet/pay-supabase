@@ -20,6 +20,7 @@ import {
   updateOrderPaid,
 } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
+import { getLogDataByHash } from "../_db/logs_data.ts";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();
@@ -68,6 +69,18 @@ Deno.serve(async (req) => {
     erc20TransferData.value,
   );
 
+  let description = "";
+
+  const logData = await getLogDataByHash(
+    supabaseClient,
+    community.primaryToken.chain_id,
+    hash,
+  );
+
+  if (logData) {
+    description = logData.data.description;
+  }
+
   // insert transaction into db
   const transaction: Transaction = {
     id: hash,
@@ -77,6 +90,7 @@ Deno.serve(async (req) => {
     from: erc20TransferData.from,
     to: erc20TransferData.to,
     value: formattedValue,
+    description,
     status: status,
   };
 
@@ -99,12 +113,13 @@ Deno.serve(async (req) => {
         parseFloat(formattedValue) * 100,
         tx_hash,
         erc20TransferData.from,
+        description,
       );
     }
   } else {
     if (orders && orders.length > 0) {
       for (const order of orders) {
-        await updateOrderPaid(supabaseClient, order.id);
+        await updateOrderPaid(supabaseClient, order.id, description);
       }
     }
   }

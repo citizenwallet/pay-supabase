@@ -23,7 +23,9 @@ export const findOrdersWithTxHash = (
     client: SupabaseClient,
     txHash: string,
 ): Promise<PostgrestResponse<Order>> => {
-    return client.from(TABLE_NAME).select("*").eq("tx_hash", txHash);
+    return Promise.resolve(
+        client.from(TABLE_NAME).select("*").eq("tx_hash", txHash),
+    ) as Promise<PostgrestResponse<Order>>;
 };
 
 export const createPaidOrder = (
@@ -32,16 +34,20 @@ export const createPaidOrder = (
     total: number,
     txHash: string,
     account: string | null,
+    description: string,
 ): Promise<PostgrestResponse<Order>> => {
-    return client.from(TABLE_NAME).insert({
-        place_id: placeId,
-        total,
-        due: 0,
-        items: [],
-        status: "paid",
-        tx_hash: txHash,
-        account,
-    });
+    return Promise.resolve(
+        client.from(TABLE_NAME).insert({
+            place_id: placeId,
+            total,
+            due: 0,
+            items: [],
+            status: "paid",
+            tx_hash: txHash,
+            account,
+            description,
+        }),
+    ) as Promise<PostgrestResponse<Order>>;
 };
 
 export const setOrderDescription = (
@@ -49,15 +55,24 @@ export const setOrderDescription = (
     orderId: number,
     description: string,
 ): Promise<PostgrestResponse<Order>> => {
-    return client.from(TABLE_NAME).update({ description }).eq("id", orderId);
+    return Promise.resolve(
+        client.from(TABLE_NAME).update({ description }).eq("id", orderId),
+    ) as Promise<PostgrestResponse<Order>>;
 };
 
 export const updateOrderPaid = (
     client: SupabaseClient,
     orderId: number,
+    description: string,
 ): Promise<PostgrestResponse<Order>> => {
-    return client.from(TABLE_NAME).update({ status: "paid", due: 0 }).eq(
-        "id",
-        orderId,
-    );
+    return Promise.resolve(
+        client.from(TABLE_NAME).update({
+            status: "paid",
+            due: 0,
+            description,
+        }).eq(
+            "id",
+            orderId,
+        ),
+    ) as Promise<PostgrestResponse<Order>>;
 };

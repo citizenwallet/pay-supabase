@@ -40,7 +40,7 @@ export const readLogs = async (
         return [];
     }
 
-    return data as Log[];
+    return data as unknown as Log[];
 };
 
 export const getLogByHash = async (
@@ -53,5 +53,9 @@ export const getLogByHash = async (
             "hash",
             hash,
         ).maybeSingle();
+    if (error) {
+        console.error("Error fetching log:", error);
+        return null;
+    }
     return data as Log | null;
 };

@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
     tokens: tokens.map((t) => t.token),
     notification,
     android: {
-      priority: "high" as "high", // Ensure notifications are always sent with high priority
+      priority: "high" as const, // Ensure notifications are always sent with high priority
     },
     apns: {
       payload: {
