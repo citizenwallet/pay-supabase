@@ -48,6 +48,12 @@ Deno.serve(async (req) => {
     );
   }
 
+  if (status !== "success") {
+    return new Response("Transaction is not successful, ignore", {
+      status: 200,
+    });
+  }
+
   const community = communityConfig();
 
   if (dest.toLowerCase() !== community.primaryToken.address.toLowerCase()) {
