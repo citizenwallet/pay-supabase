@@ -16,6 +16,7 @@ export interface Order {
     status: "pending" | "paid" | "cancelled";
     description: string;
     tx_hash: string;
+    type: "web" | "app" | "terminal" | null;
     account: string | null;
 }
 
@@ -44,6 +45,7 @@ export const createPaidOrder = (
             items: [],
             status: "paid",
             tx_hash: txHash,
+            type: "app",
             account,
             description,
         }),
