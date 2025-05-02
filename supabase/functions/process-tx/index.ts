@@ -21,6 +21,7 @@ import {
 } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
 import { getLogDataByHash } from "../_db/logs_data.ts";
+import { ZeroAddress } from "npm:ethers@^6.11.1";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();
@@ -105,7 +106,9 @@ Deno.serve(async (req) => {
     supabaseClient,
     tx_hash,
   );
-  if (!orders || orders.length === 0) {
+  if (
+    (!orders || orders.length === 0) && erc20TransferData.from !== ZeroAddress
+  ) {
     const { data: places } = await getPlacesByAccount(
       supabaseClient,
       erc20TransferData.to,
