@@ -1,8 +1,8 @@
-import { formatProfileImageLinks, type Profile } from "jsr:@citizenwallet/sdk";
+import { formatProfileImageLinks, type Profile } from "npm:@citizenwallet/sdk";
 import type {
     PostgrestSingleResponse,
     SupabaseClient,
-} from "jsr:@supabase/supabase-js@2";
+} from "npm:@supabase/supabase-js@2";
 import { Place } from "./places.ts";
 
 export interface ProfileWithTokenId extends Profile {

@@ -1,5 +1,5 @@
-import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
-import type { Log } from "jsr:@citizenwallet/sdk";
+import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
+import type { Log } from "npm:@citizenwallet/sdk";
 
 const TABLE_NAME = "t_logs";
 

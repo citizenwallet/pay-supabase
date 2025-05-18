@@ -3,7 +3,7 @@
 // This enables autocomplete, go to definition, etc.
 
 // Setup type definitions for built-in Supabase Runtime APIs
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+// import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 import { sendNotification } from "../_firebase/index.ts";
 import {
@@ -11,7 +11,7 @@ import {
   createERC20TransferNotification,
   type ERC20TransferData,
 } from "../_citizen-wallet/index.ts";
-import type { Profile } from "jsr:@citizenwallet/sdk";
+import type { Profile } from "npm:@citizenwallet/sdk";
 import { getServiceRoleClient } from "../_db/index.ts";
 import { getTokensForAddress } from "../_db/tokens.ts";
 import { getProfile } from "../_db/profiles.ts";

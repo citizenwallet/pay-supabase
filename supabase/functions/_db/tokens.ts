@@ -1,7 +1,7 @@
 import type {
     PostgrestResponse,
     SupabaseClient,
-} from "jsr:@supabase/supabase-js@2";
+} from "npm:@supabase/supabase-js@2";
 
 const TOKENS_TABLE = "t_push_token";
 

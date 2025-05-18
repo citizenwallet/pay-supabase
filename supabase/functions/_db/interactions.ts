@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
+import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { Transaction } from "./transactions.ts";
 
 const INTERACTIONS_TABLE = "a_interactions";
