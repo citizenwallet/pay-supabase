@@ -106,30 +106,9 @@ Deno.serve(async (req) => {
     supabaseClient,
     tx_hash,
   );
-  if (
-    (!orders || orders.length === 0) && erc20TransferData.from !== ZeroAddress
-  ) {
-    const { data: places } = await getPlacesByAccount(
-      supabaseClient,
-      erc20TransferData.to,
-    );
-
-    const place = places?.[0] ?? null;
-    if (place) {
-      await createPaidOrder(
-        supabaseClient,
-        place.id,
-        parseFloat(formattedValue) * 100,
-        tx_hash,
-        erc20TransferData.from,
-        description,
-      );
-    }
-  } else {
-    if (orders && orders.length > 0) {
-      for (const order of orders) {
-        await updateOrderPaid(supabaseClient, order.id, description);
-      }
+  if (orders && orders.length > 0) {
+    for (const order of orders) {
+      await updateOrderPaid(supabaseClient, order.id, description);
     }
   }
 
