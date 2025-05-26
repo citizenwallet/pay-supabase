@@ -1,4 +1,4 @@
-import { PostgrestResponse, SupabaseClient } from "jsr:@supabase/supabase-js@2";
+import { PostgrestResponse, SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const TABLE_NAME = "orders";
 

@@ -1,4 +1,4 @@
-import { CommunityConfig, type Profile } from "jsr:@citizenwallet/sdk";
+import { CommunityConfig, type Profile } from "npm:@citizenwallet/sdk";
 import { formatUnits } from "npm:ethers";
 
 import communityJson from "./community.json" with {
