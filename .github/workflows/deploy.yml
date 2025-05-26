@@ -20,8 +20,8 @@ jobs:
       - name: Add firebase.json file
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > ./supabase/functions/_firebase/firebase.json
 
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
+      # - uses: supabase/setup-cli@v1
+      #   with:
+      #     version: latest
 
-      - run: supabase functions deploy --project-ref $PROJECT_ID
+      # - run: supabase functions deploy --project-ref $PROJECT_ID
