@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
     status: status,
   };
 
-  // create order if it doesn't exist and destination is a place
+  // only update an order, don't create a new one
   const { data: orders } = await findOrdersWithTxHash(
     supabaseClient,
     tx_hash,
