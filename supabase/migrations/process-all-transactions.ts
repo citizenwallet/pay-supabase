@@ -1,19 +1,17 @@
 import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
 import { getServiceRoleClient } from "../functions/_db/index.ts";
 import { readLogs, totalLogs } from "../functions/_db/logs.ts";
+import { getLogDataByHash } from "../functions/_db/logs_data.ts";
 import { ensureProfileExists } from "../functions/_citizen-wallet/profiles.ts";
 import {
     communityConfig,
     type ERC20TransferData,
-    type ERC20TransferExtraData,
     formatERC20TransactionValue,
 } from "../functions/_citizen-wallet/index.ts";
 import type { CommunityConfig } from "jsr:@citizenwallet/sdk";
 import {
     type Transaction,
-    type TransactionWithDescription,
     upsertTransaction,
-    upsertTransactionWithDescription,
 } from "../functions/_db/transactions.ts";
 
 const processTransactions = async (
@@ -37,8 +35,6 @@ const processTransactions = async (
         offset,
     );
 
-    console.log(`Found ${logs.length} logs`);
-
     for (const log of logs) {
         const erc20TransferData = log.data as ERC20TransferData;
 
@@ -53,11 +49,16 @@ const processTransactions = async (
             erc20TransferData.to,
         );
 
-        let erc20TransferExtraData: ERC20TransferExtraData = {
-            description: "",
-        };
-        if (log.extra_data) {
-            erc20TransferExtraData = log.extra_data as ERC20TransferExtraData;
+        let description = "";
+
+        const logData = await getLogDataByHash(
+            supabaseClient,
+            community.primaryToken.chain_id,
+            log.hash,
+        );
+
+        if (logData) {
+            description = logData.data.description;
         }
 
         const transaction: Transaction = {
@@ -71,19 +72,15 @@ const processTransactions = async (
                 community,
                 erc20TransferData.value,
             ),
+            description: description,
             status: log.status,
         };
 
-        const transactionWithDescription: TransactionWithDescription = {
-            id: log.hash,
-            description: erc20TransferExtraData.description || "",
-        };
+        const { error } = await upsertTransaction(supabaseClient, transaction);
 
-        await upsertTransaction(supabaseClient, transaction);
-        await upsertTransactionWithDescription(
-            supabaseClient,
-            transactionWithDescription,
-        );
+        if (error) {
+            console.error("Error inserting transaction:", error);
+        }
     }
 
     if (logs.length >= limit) {
