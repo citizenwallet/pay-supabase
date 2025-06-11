@@ -22,10 +22,12 @@ export const insertAnonymousProfile = async (
         throw new Error("DEFAULT_PROFILE_IMAGE_IPFS_HASH is not set");
     }
 
-    const ipfsUrl = Deno.env.get("IPFS_URL");
-    if (!ipfsUrl) {
-        throw new Error("IPFS_URL is not set");
+    const ipfsDomain = Deno.env.get("IPFS_DOMAIN");
+    if (!ipfsDomain) {
+        throw new Error("IPFS_DOMAIN is not set");
     }
+
+    const ipfsUrl = `https://${ipfsDomain}`;
 
     const profile: Profile = formatProfileImageLinks(ipfsUrl, {
         account,
@@ -50,10 +52,12 @@ export const insertPlaceProfile = async (
         throw new Error("DEFAULT_PROFILE_IMAGE_IPFS_HASH is not set");
     }
 
-    const ipfsUrl = Deno.env.get("IPFS_URL");
-    if (!ipfsUrl) {
-        throw new Error("IPFS_URL is not set");
+    const ipfsDomain = Deno.env.get("IPFS_DOMAIN");
+    if (!ipfsDomain) {
+        throw new Error("IPFS_DOMAIN is not set");
     }
+
+    const ipfsUrl = `https://${ipfsDomain}`;
 
     const profile: Profile = formatProfileImageLinks(ipfsUrl, {
         account: place.accounts[0],

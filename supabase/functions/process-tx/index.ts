@@ -68,8 +68,6 @@ Deno.serve(async (req) => {
 
   const erc20TransferData = data as ERC20TransferData;
 
-  console.log("erc20TransferData", erc20TransferData);
-
   await ensureProfileExists(supabaseClient, community, erc20TransferData.from);
   await ensureProfileExists(supabaseClient, community, erc20TransferData.to);
 

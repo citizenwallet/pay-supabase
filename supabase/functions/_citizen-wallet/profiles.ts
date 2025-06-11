@@ -24,8 +24,14 @@ export const ensureProfileExists = async (
         return;
     }
 
+    const ipfsDomain = Deno.env.get("IPFS_DOMAIN");
+    if (!ipfsDomain) {
+        throw new Error("IPFS_DOMAIN is not set");
+    }
+
     // Check the smart contract for a profile
     const profile = await getProfileFromAddress(
+        ipfsDomain,
         config,
         address,
     );
