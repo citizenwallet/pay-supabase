@@ -21,7 +21,7 @@ import {
 } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
 import { getLogDataByHash } from "../_db/logs_data.ts";
-import { ZeroAddress } from "npm:ethers@^6.11.1";
+import { ZeroAddress } from "npm:ethers";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();

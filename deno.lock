@@ -2,12 +2,14 @@
   "version": "4",
   "specifiers": {
     "jsr:@citizenwallet/sdk@*": "2.0.44",
+    "jsr:@std/assert@1": "1.0.13",
+    "jsr:@std/internal@^1.0.6": "1.0.8",
     "jsr:@supabase/functions-js@*": "2.4.3",
     "jsr:@supabase/functions-js@^2.4.3": "2.4.3",
     "jsr:@supabase/supabase-js@2": "2.46.0",
     "jsr:@supabase/supabase-js@^2.46.0": "2.46.0",
-    "npm:@citizenwallet/sdk@*": "2.0.93_react@18.3.1",
-    "npm:@citizenwallet/sdk@^2.0.93": "2.0.93_react@18.3.1",
+    "npm:@citizenwallet/sdk@*": "2.0.96_react@18.3.1",
+    "npm:@citizenwallet/sdk@^2.0.96": "2.0.96_react@18.3.1",
     "npm:@supabase/auth-js@2.65.1": "2.65.1",
     "npm:@supabase/functions-js@2.4.3": "2.4.3",
     "npm:@supabase/node-fetch@2.6.15": "2.6.15",
@@ -19,6 +21,7 @@
     "npm:ethers@*": "6.13.4",
     "npm:ethers@^6.11.1": "6.13.4",
     "npm:ethers@^6.13.4": "6.13.4",
+    "npm:ethers@^6.14.3": "6.14.3",
     "npm:fflate@~0.8.2": "0.8.2",
     "npm:firebase-admin@*": "12.7.0",
     "npm:firebase-admin@^12.7.0": "12.7.0",
@@ -31,6 +34,15 @@
         "npm:ethers@^6.11.1",
         "npm:fflate"
       ]
+    },
+    "@std/assert@1.0.13": {
+      "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.8": {
+      "integrity": "fc66e846d8d38a47cffd274d80d2ca3f0de71040f855783724bb6b87f60891f5"
     },
     "@supabase/functions-js@2.4.3": {
       "integrity": "010834c9e7d2996b4be8e4004a15ed8f42b326490e4b354683f9c191353b76cc",
@@ -54,12 +66,12 @@
     "@adraffy/ens-normalize@1.10.1": {
       "integrity": "sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw=="
     },
-    "@citizenwallet/sdk@2.0.93_react@18.3.1": {
-      "integrity": "sha512-5cjd2djSU59dT00ZKgzKeNL3J3kKWxeHQRtX0JMToQ+6Q4p1wnUDww1ldA2kAD50kdkHDhn9aZWdTt7DVItqBA==",
+    "@citizenwallet/sdk@2.0.96_react@18.3.1": {
+      "integrity": "sha512-EMMNR9fmd6iutgaHLk4ebPLUrXlAmupow4ALuI0UV0NXLyAWpLWaC0pAUG5XG9jbE5HP57LJ60IG/Us99O4JCA==",
       "dependencies": [
         "@openzeppelin/contracts-upgradeable",
         "dotenv",
-        "ethers",
+        "ethers@6.13.4",
         "fflate",
         "react",
         "typescript",
@@ -577,6 +589,18 @@
         "ws@8.17.1"
       ]
     },
+    "ethers@6.14.3": {
+      "integrity": "sha512-qq7ft/oCJohoTcsNPFaXSQUm457MA5iWqkf1Mb11ujONdg7jBI6sAOrHaTi3j0CBqIGFSCeR/RMc+qwRRub7IA==",
+      "dependencies": [
+        "@adraffy/ens-normalize",
+        "@noble/curves",
+        "@noble/hashes",
+        "@types/node@22.7.5",
+        "aes-js",
+        "tslib",
+        "ws@8.17.1"
+      ]
+    },
     "event-target-shim@5.0.1": {
       "integrity": "sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ=="
     },
@@ -907,8 +931,8 @@
     "openai@4.68.4": {
       "integrity": "sha512-LRinV8iU9VQplkr25oZlyrsYGPGasIwYN8KFMAAFTHHLHjHhejtJ5BALuLFrkGzY4wfbKhOhuT+7lcHZ+F3iEA==",
       "dependencies": [
-        "@types/node@18.19.59",
         "@types/node-fetch",
+        "@types/node@18.19.59",
         "abort-controller",
         "agentkeepalive",
         "form-data-encoder",
@@ -1125,8 +1149,8 @@
     "yocto-queue@0.1.0": {
       "integrity": "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
     },
-    "zustand@4.5.6_react@18.3.1": {
-      "integrity": "sha512-ibr/n1hBzLLj5Y+yUcU7dYw8p6WnIVzdJbnX+1YpaScvZVF2ziugqHs+LAmHw4lWO9c/zRj+K1ncgWDQuthEdQ==",
+    "zustand@4.5.7_react@18.3.1": {
+      "integrity": "sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==",
       "dependencies": [
         "react",
         "use-sync-external-store"
@@ -1138,8 +1162,8 @@
       "jsr:@std/assert@1",
       "jsr:@supabase/functions-js@^2.4.3",
       "jsr:@supabase/supabase-js@^2.46.0",
-      "npm:@citizenwallet/sdk@^2.0.93",
-      "npm:ethers@^6.13.4",
+      "npm:@citizenwallet/sdk@^2.0.96",
+      "npm:ethers@^6.14.3",
       "npm:firebase-admin@^12.7.0"
     ]
   }
