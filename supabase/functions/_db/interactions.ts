@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
+import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
 import { Transaction } from "./transactions.ts";
 
 const INTERACTIONS_TABLE = "a_interactions";
@@ -22,7 +22,7 @@ export const upsertInteraction = async (
                 with: transaction.to,
                 updated_at: timestamp,
                 created_at: timestamp,
-                new_interaction: true,
+                new_interaction: false,
                 place_id: place_id,
             },
             {
