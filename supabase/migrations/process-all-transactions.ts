@@ -8,7 +8,7 @@ import {
     type ERC20TransferData,
     formatERC20TransactionValue,
 } from "../functions/_citizen-wallet/index.ts";
-import type { CommunityConfig } from "jsr:@citizenwallet/sdk";
+import type { CommunityConfig } from "npm:@citizenwallet/sdk";
 import {
     type Transaction,
     upsertTransaction,
@@ -36,7 +36,7 @@ const processTransactions = async (
     );
 
     for (const log of logs) {
-        const erc20TransferData = log.data as ERC20TransferData;
+        const erc20TransferData = log.data as unknown as ERC20TransferData;
 
         await ensureProfileExists(
             supabaseClient,

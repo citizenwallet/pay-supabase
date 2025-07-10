@@ -49,8 +49,14 @@ Deno.serve(async (req) => {
 
     const metadataUpdateData = data as MetadataUpdateData;
 
+    const ipfsDomain = Deno.env.get("IPFS_DOMAIN");
+    if (!ipfsDomain) {
+        return new Response("IPFS_DOMAIN is not set", { status: 500 });
+    }
+
     // fetch the profile
     const profile = await getProfileFromId(
+        ipfsDomain,
         community,
         metadataUpdateData._tokenId,
     );

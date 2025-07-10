@@ -1,7 +1,7 @@
 import type {
     PostgrestSingleResponse,
     SupabaseClient,
-} from "npm:@supabase/supabase-js@2";
+} from "jsr:@supabase/supabase-js@2";
 import type { LogStatus } from "npm:@citizenwallet/sdk";
 
 export interface Transaction {

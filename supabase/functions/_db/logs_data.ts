@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
+import type { SupabaseClient } from "jsr:@supabase/supabase-js";
 
 const TABLE_NAME = "t_logs_data";
 
