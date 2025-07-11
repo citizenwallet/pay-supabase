@@ -22,6 +22,7 @@ import {
 import { getPlacesByAccount } from "../_db/places.ts";
 import { getLogDataByHash } from "../_db/logs_data.ts";
 import { ZeroAddress } from "npm:ethers";
+import { tokenTransferEventTopic } from "npm:@citizenwallet/sdk";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();
@@ -57,16 +58,16 @@ Deno.serve(async (req) => {
 
   const community = communityConfig();
 
-  if (dest.toLowerCase() !== community.primaryToken.address.toLowerCase()) {
-    return new Response("Only process primary token transfers", {
-      status: 200,
-    });
-  }
-
   // Initialize Supabase client
   const supabaseClient = getServiceRoleClient();
 
   const erc20TransferData = data as ERC20TransferData;
+
+  if (tokenTransferEventTopic !== data.topic) {
+    return new Response("Not a token transfer", {
+      status: 200,
+    });
+  }
 
   await ensureProfileExists(supabaseClient, community, erc20TransferData.from);
   await ensureProfileExists(supabaseClient, community, erc20TransferData.to);
@@ -92,6 +93,7 @@ Deno.serve(async (req) => {
   const transaction: Transaction = {
     id: hash,
     hash: tx_hash,
+    contract: dest,
     created_at,
     updated_at,
     from: erc20TransferData.from,
