@@ -5,13 +5,14 @@
     "jsr:@std/internal@^1.0.6": "1.0.8",
     "jsr:@supabase/functions-js@^2.4.3": "2.4.3",
     "jsr:@supabase/supabase-js@^2.50.4": "2.50.4",
-    "npm:@citizenwallet/sdk@^2.0.106": "2.0.106_react@18.3.1",
+    "npm:@citizenwallet/sdk@^2.0.111": "2.0.111_react@18.3.1",
     "npm:@supabase/auth-js@2.70.0": "2.70.0",
     "npm:@supabase/functions-js@2.4.5": "2.4.5",
     "npm:@supabase/node-fetch@2.6.15": "2.6.15",
     "npm:@supabase/postgrest-js@1.21.0": "1.21.0",
     "npm:@supabase/realtime-js@2.11.15": "2.11.15_ws@8.18.3",
     "npm:@supabase/storage-js@2.7.1": "2.7.1",
+    "npm:ethers@6.15.0": "6.15.0",
     "npm:ethers@^6.15.0": "6.15.0",
     "npm:firebase-admin@^13.4.0": "13.4.0",
     "npm:jose@^6.0.11": "6.0.11",
@@ -49,8 +50,8 @@
     "@adraffy/ens-normalize@1.10.1": {
       "integrity": "sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw=="
     },
-    "@citizenwallet/sdk@2.0.106_react@18.3.1": {
-      "integrity": "sha512-Vs0JPqUs+EKJ3ocT8P47huZbA2ssaMwOFTwQS3XzGSoc78gpgkqCAuEf63e7UmWfk5DBGqRzD/V1Jz9QnxgCMw==",
+    "@citizenwallet/sdk@2.0.111_react@18.3.1": {
+      "integrity": "sha512-3qK5Fr4OXcqQdcGcumMryN6eUv2aXp4QONIZ8JtmoerwBkRQQZerk9KPs2aLqw4bn3PIphJRO6cnePjs74TRvQ==",
       "dependencies": [
         "@openzeppelin/contracts-upgradeable",
         "dotenv",
@@ -198,14 +199,14 @@
     "@opentelemetry/api@1.9.0": {
       "integrity": "sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg=="
     },
-    "@openzeppelin/contracts-upgradeable@5.3.0_@openzeppelin+contracts@5.3.0": {
-      "integrity": "sha512-yVzSSyTMWO6rapGI5tuqkcLpcGGXA0UA1vScyV5EhE5yw8By3Ewex9rDUw8lfVw0iTkvR/egjfcW5vpk03lqZg==",
+    "@openzeppelin/contracts-upgradeable@5.4.0_@openzeppelin+contracts@5.4.0": {
+      "integrity": "sha512-STJKyDzUcYuB35Zub1JpWW58JxvrFFVgQ+Ykdr8A9PGXgtq/obF5uoh07k2XmFyPxfnZdPdBdhkJ/n2YxJ87HQ==",
       "dependencies": [
         "@openzeppelin/contracts"
       ]
     },
-    "@openzeppelin/contracts@5.3.0": {
-      "integrity": "sha512-zj/KGoW7zxWUE8qOI++rUM18v+VeLTTzKs/DJFkSzHpQFPD/jKKF0TrMxBfGLl3kpdELCNccvB3zmofSzm4nlA=="
+    "@openzeppelin/contracts@5.4.0": {
+      "integrity": "sha512-eCYgWnLg6WO+X52I16TZt8uEjbtdkgLC0SUX/xnAksjjrQI4Xfn4iBRoI5j55dmlOhDv1Y7BoR3cU7e3WWhC6A=="
     },
     "@protobufjs/aspromise@1.1.2": {
       "integrity": "sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ=="
@@ -1214,7 +1215,7 @@
       "jsr:@std/assert@1",
       "jsr:@supabase/functions-js@^2.4.3",
       "jsr:@supabase/supabase-js@^2.50.4",
-      "npm:@citizenwallet/sdk@^2.0.106",
+      "npm:@citizenwallet/sdk@^2.0.111",
       "npm:ethers@^6.15.0",
       "npm:firebase-admin@^13.4.0",
       "npm:jose@^6.0.11"

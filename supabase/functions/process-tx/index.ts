@@ -14,14 +14,9 @@ import { getServiceRoleClient } from "../_db/index.ts";
 import { type Transaction, upsertTransaction } from "../_db/transactions.ts";
 import { upsertInteraction } from "../_db/interactions.ts";
 import { ensureProfileExists } from "../_citizen-wallet/profiles.ts";
-import {
-  createPaidOrder,
-  findOrdersWithTxHash,
-  updateOrderPaid,
-} from "../_db/orders.ts";
+import { findOrdersWithTxHash, updateOrderPaid } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
 import { getLogDataByHash } from "../_db/logs_data.ts";
-import { ZeroAddress } from "npm:ethers";
 import { tokenTransferEventTopic } from "npm:@citizenwallet/sdk";
 
 Deno.serve(async (req) => {

@@ -31,9 +31,12 @@ export const communityConfig = () => {
 export const formatERC20TransactionValue = (
     config: CommunityConfig,
     value: string,
+    options: { decimals?: number } | undefined = undefined,
 ) => {
-    const token = config.primaryToken;
-    return formatUnits(value, token.decimals);
+    return formatUnits(
+        value,
+        options?.decimals ?? config.primaryToken.decimals,
+    );
 };
 
 export const createERC20TransferNotification = (

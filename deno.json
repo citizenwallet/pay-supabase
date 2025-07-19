@@ -1,7 +1,7 @@
 {
   "nodeModulesDir": "auto",
   "imports": {
-    "@citizenwallet/sdk": "npm:@citizenwallet/sdk@^2.0.106",
+    "@citizenwallet/sdk": "npm:@citizenwallet/sdk@^2.0.111",
     "@std/assert": "jsr:@std/assert@1",
     "@/firebase": "./supabase/functions/_firebase",
     "@/supabase": "./supabase",
