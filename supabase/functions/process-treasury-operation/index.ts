@@ -5,10 +5,7 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-import {
-  communityConfig,
-  formatERC20TransactionValue,
-} from "../_citizen-wallet/index.ts";
+import { communityConfig } from "../_citizen-wallet/index.ts";
 import { getServiceRoleClient } from "../_db/index.ts";
 import { ensureProfileExists } from "../_citizen-wallet/profiles.ts";
 import {
@@ -96,19 +93,13 @@ Deno.serve(async (req) => {
     account,
   );
 
-  const formattedValue = formatERC20TransactionValue(
-    community,
-    (treasuryOperation.amount / 100).toFixed(2),
-    { decimals: token.decimals },
-  );
-
   const txHash = await bundler.mintERC20Token(
     // deno-lint-ignore no-explicit-any
     signer as unknown as any,
     token.address,
     account,
     treasuryOperation.account,
-    formattedValue,
+    `${treasuryOperation.amount / 100}`,
     `top up via: ${treasury.business.name}`,
   );
 
