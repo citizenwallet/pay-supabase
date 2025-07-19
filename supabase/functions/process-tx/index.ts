@@ -18,6 +18,7 @@ import { findOrdersWithTxHash, updateOrderPaid } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
 import { getLogDataByHash } from "../_db/logs_data.ts";
 import { tokenTransferEventTopic } from "npm:@citizenwallet/sdk";
+import { confirmTreasuryOperationsByTxHash } from "../_db/treasury_operation.ts";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();
@@ -127,6 +128,8 @@ Deno.serve(async (req) => {
   }
 
   const placeId = accountPlaces?.[0]?.id ?? null;
+
+  await confirmTreasuryOperationsByTxHash(supabaseClient, tx_hash);
 
   await upsertInteraction(
     supabaseClient,

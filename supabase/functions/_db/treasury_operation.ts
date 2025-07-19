@@ -45,6 +45,17 @@ export const insertTreasuryOperations = async (
   });
 };
 
+export const confirmTreasuryOperationsByTxHash = async (
+  client: SupabaseClient,
+  txHash: string,
+): Promise<PostgrestSingleResponse<null>> => {
+  return client
+    .from("treasury_operations")
+    .update({ status: "processed" })
+    .eq("status", "confirming")
+    .eq("tx_hash", txHash);
+};
+
 export const getPendingTreasuryOperations = async (
   client: SupabaseClient,
   treasuryId: number,
