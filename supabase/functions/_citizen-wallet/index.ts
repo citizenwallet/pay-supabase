@@ -20,6 +20,13 @@ export interface ERC20TransferExtraData {
     description: string;
 }
 
+export interface ProfileTransferData {
+    to: string;
+    from: string;
+    topic: string;
+    tokenId: string;
+}
+
 export interface MetadataUpdateData {
     _tokenId: string;
 }
