@@ -16,6 +16,13 @@ export interface ERC20TransferData {
     value: string;
 }
 
+export interface RoleChangeData {
+    role: string;
+    topic: string;
+    sender: string;
+    account: string;
+}
+
 export interface ERC20TransferExtraData {
     description: string;
 }
