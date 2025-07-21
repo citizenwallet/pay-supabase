@@ -19,6 +19,7 @@ export interface PeriodicOperationMetadata {
 }
 
 export interface PaygOperationMetadata {
+  order_id?: number;
   description?: string;
 }
 

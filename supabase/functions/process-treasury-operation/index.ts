@@ -15,6 +15,7 @@ import {
 import { getTreasuryById } from "../_db/treasury.ts";
 import { BundlerService, getAccountAddress } from "npm:@citizenwallet/sdk";
 import { Wallet } from "npm:ethers";
+import { attachTxHashToOrder } from "../_db/orders.ts";
 
 Deno.serve(async (req) => {
   const { record } = await req.json();
@@ -125,6 +126,16 @@ Deno.serve(async (req) => {
     operationIds,
     txHash,
   );
+
+  if (
+    treasury.sync_strategy === "payg" && treasuryOperation.metadata.order_id
+  ) {
+    await attachTxHashToOrder(
+      supabaseClient,
+      treasuryOperation.metadata.order_id,
+      txHash,
+    );
+  }
 
   return new Response("transaction processed", { status: 200 });
 });

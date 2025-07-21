@@ -1,4 +1,8 @@
-import { PostgrestResponse, SupabaseClient } from "jsr:@supabase/supabase-js@2";
+import {
+    PostgrestResponse,
+    PostgrestSingleResponse,
+    SupabaseClient,
+} from "jsr:@supabase/supabase-js@2";
 
 const TABLE_NAME = "orders";
 
@@ -77,4 +81,16 @@ export const updateOrderPaid = (
             orderId,
         ),
     ) as Promise<PostgrestResponse<Order>>;
+};
+
+export const attachTxHashToOrder = async (
+    client: SupabaseClient,
+    orderId: number,
+    txHash: string,
+): Promise<PostgrestSingleResponse<Order>> => {
+    return client
+        .from(TABLE_NAME)
+        .update({ tx_hash: txHash, status: "paid" })
+        .eq("id", orderId)
+        .single();
 };
