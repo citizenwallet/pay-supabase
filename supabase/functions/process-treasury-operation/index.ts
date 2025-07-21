@@ -94,7 +94,11 @@ Deno.serve(async (req) => {
     account,
   );
 
-  let description = `top up via: ${treasury.business.name}`;
+  const { direction } = treasuryOperation;
+
+  let description = direction === "in"
+    ? `top up via: ${treasury.business.name}`
+    : `refund via: ${treasury.business.name}`;
   if (
     treasury.sync_strategy === "payg" && treasuryOperation.metadata.description
   ) {
@@ -111,15 +115,25 @@ Deno.serve(async (req) => {
     amount = `${periodicOperation.metadata.total_amount / 100}`;
   }
 
-  const txHash = await bundler.mintERC20Token(
-    // deno-lint-ignore no-explicit-any
-    signer as unknown as any,
-    token.address,
-    account,
-    treasuryOperation.account,
-    amount,
-    description,
-  );
+  const txHash = direction === "in"
+    ? await bundler.mintERC20Token(
+      // deno-lint-ignore no-explicit-any
+      signer as unknown as any,
+      token.address,
+      account,
+      treasuryOperation.account,
+      amount,
+      description,
+    )
+    : await bundler.burnFromERC20Token(
+      // deno-lint-ignore no-explicit-any
+      signer as unknown as any,
+      token.address,
+      account,
+      treasuryOperation.account,
+      amount,
+      description,
+    );
 
   await confirmTreasuryOperations(
     supabaseClient,
@@ -134,6 +148,7 @@ Deno.serve(async (req) => {
       supabaseClient,
       treasuryOperation.metadata.order_id,
       txHash,
+      direction === "in" ? "paid" : "refund",
     );
   }
 
