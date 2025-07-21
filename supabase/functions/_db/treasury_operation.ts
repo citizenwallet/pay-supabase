@@ -15,6 +15,7 @@ export interface TreasuryOperation {
   id: string;
   treasury_id: number;
   created_at: string;
+  updated_at: string;
   direction: "in" | "out";
   amount: number;
   status: TreasuryOperationStatus;
@@ -29,9 +30,10 @@ export const confirmTreasuryOperation = async (
   id: string,
   txHash: string,
 ): Promise<PostgrestSingleResponse<null>> => {
+  const now = new Date().toISOString();
   return client
     .from("treasury_operations")
-    .update({ status: "confirming", tx_hash: txHash })
+    .update({ status: "confirming", tx_hash: txHash, updated_at: now })
     .eq("id", id);
 };
 
@@ -49,9 +51,10 @@ export const confirmTreasuryOperationsByTxHash = async (
   client: SupabaseClient,
   txHash: string,
 ): Promise<PostgrestSingleResponse<null>> => {
+  const now = new Date().toISOString();
   return client
     .from("treasury_operations")
-    .update({ status: "processed" })
+    .update({ status: "processed", updated_at: now })
     .eq("status", "confirming")
     .eq("tx_hash", txHash);
 };
