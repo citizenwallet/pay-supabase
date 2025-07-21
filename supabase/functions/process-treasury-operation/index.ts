@@ -9,7 +9,7 @@ import { communityConfig } from "../_citizen-wallet/index.ts";
 import { getServiceRoleClient } from "../_db/index.ts";
 import { ensureProfileExists } from "../_citizen-wallet/profiles.ts";
 import {
-  confirmTreasuryOperation,
+  confirmTreasuryOperations,
   TreasuryOperation,
 } from "../_db/treasury_operation.ts";
 import { getTreasuryById } from "../_db/treasury.ts";
@@ -93,17 +93,38 @@ Deno.serve(async (req) => {
     account,
   );
 
+  let description = `top up via: ${treasury.business.name}`;
+  if (
+    treasury.sync_strategy === "payg" && treasuryOperation.metadata.description
+  ) {
+    description = treasuryOperation.metadata.description;
+  }
+
+  const operationIds = [treasuryOperation.id];
+  let amount = `${treasuryOperation.amount / 100}`;
+  if (treasury.sync_strategy === "periodic") {
+    const periodicOperation = record as TreasuryOperation<"periodic">;
+
+    operationIds.push(...periodicOperation.metadata.grouped_operations);
+
+    amount = `${periodicOperation.metadata.total_amount / 100}`;
+  }
+
   const txHash = await bundler.mintERC20Token(
     // deno-lint-ignore no-explicit-any
     signer as unknown as any,
     token.address,
     account,
     treasuryOperation.account,
-    `${treasuryOperation.amount / 100}`,
-    `top up via: ${treasury.business.name}`,
+    amount,
+    description,
   );
 
-  await confirmTreasuryOperation(supabaseClient, treasuryOperation.id, txHash);
+  await confirmTreasuryOperations(
+    supabaseClient,
+    operationIds,
+    txHash,
+  );
 
   return new Response("transaction processed", { status: 200 });
 });

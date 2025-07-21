@@ -3,15 +3,26 @@ import {
   PostgrestSingleResponse,
   SupabaseClient,
 } from "jsr:@supabase/supabase-js@2";
+import { SyncStrategy } from "./treasury.ts";
 
 export type TreasuryOperationStatus =
   | "requesting"
   | "pending"
+  | "pending-periodic"
   | "confirming"
   | "processed"
   | "processed-account-not-found";
 
-export interface TreasuryOperation {
+export interface PeriodicOperationMetadata {
+  grouped_operations: string[];
+  total_amount: number;
+}
+
+export interface PaygOperationMetadata {
+  description?: string;
+}
+
+export interface TreasuryOperation<S extends SyncStrategy = "payg"> {
   id: string;
   treasury_id: number;
   created_at: string;
@@ -20,21 +31,23 @@ export interface TreasuryOperation {
   amount: number;
   status: TreasuryOperationStatus;
   message: string;
-  metadata: Record<string, string>;
+  metadata: S extends "periodic" ? PeriodicOperationMetadata
+    : S extends "payg" ? PaygOperationMetadata
+    : Record<string, string>;
   tx_hash: string | null;
   account: string | null;
 }
 
-export const confirmTreasuryOperation = async (
+export const confirmTreasuryOperations = async (
   client: SupabaseClient,
-  id: string,
+  ids: string[],
   txHash: string,
 ): Promise<PostgrestSingleResponse<null>> => {
   const now = new Date().toISOString();
   return client
     .from("treasury_operations")
     .update({ status: "confirming", tx_hash: txHash, updated_at: now })
-    .eq("id", id);
+    .in("id", ids);
 };
 
 export const insertTreasuryOperations = async (
