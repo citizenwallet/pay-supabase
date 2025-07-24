@@ -1,4 +1,8 @@
-import { PostgrestResponse, SupabaseClient } from "jsr:@supabase/supabase-js@2";
+import {
+    PostgrestResponse,
+    PostgrestSingleResponse,
+    SupabaseClient,
+} from "jsr:@supabase/supabase-js@2";
 
 const TABLE_NAME = "places";
 
@@ -28,4 +32,11 @@ export const getPlacesByAccount = async (
         .from(TABLE_NAME)
         .select("*")
         .contains("accounts", JSON.stringify([account]));
+};
+
+export const getPlaceById = async (
+    client: SupabaseClient,
+    placeId: number,
+): Promise<PostgrestSingleResponse<Place | null>> => {
+    return client.from(TABLE_NAME).select("*").eq("id", placeId).maybeSingle();
 };

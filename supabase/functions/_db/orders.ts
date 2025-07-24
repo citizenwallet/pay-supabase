@@ -6,22 +6,39 @@ import {
 
 const TABLE_NAME = "orders";
 
+export type OrderStatus =
+    | "pending"
+    | "paid"
+    | "cancelled"
+    | "needs_minting"
+    | "needs_burning"
+    | "refunded"
+    | "refund_pending"
+    | "refund"
+    | "correction";
+
 export interface Order {
     id: number;
     created_at: string;
     completed_at: string | null;
     total: number;
     due: number;
+    fees: number;
     place_id: number;
     items: {
         id: number;
         quantity: number;
     }[];
-    status: "pending" | "paid" | "cancelled";
+    status: OrderStatus;
     description: string;
-    tx_hash: string;
+    tx_hash: string | null;
     type: "web" | "app" | "terminal" | null;
     account: string | null;
+    payout_id: number | null;
+    pos: string | null;
+    processor_tx: number | null;
+    refund_id: number | null;
+    token: string | null;
 }
 
 export const findOrdersWithTxHash = (
@@ -66,14 +83,15 @@ export const setOrderDescription = (
     ) as Promise<PostgrestResponse<Order>>;
 };
 
-export const updateOrderPaid = (
+export const finalizeOrder = (
     client: SupabaseClient,
     orderId: number,
     description: string,
+    status: OrderStatus = "paid",
 ): Promise<PostgrestResponse<Order>> => {
     return Promise.resolve(
         client.from(TABLE_NAME).update({
-            status: "paid",
+            status,
             due: 0,
             description,
         }).eq(

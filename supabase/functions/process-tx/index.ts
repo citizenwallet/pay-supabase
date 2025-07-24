@@ -14,7 +14,7 @@ import { getServiceRoleClient } from "../_db/index.ts";
 import { type Transaction, upsertTransaction } from "../_db/transactions.ts";
 import { upsertInteraction } from "../_db/interactions.ts";
 import { ensureProfileExists } from "../_citizen-wallet/profiles.ts";
-import { findOrdersWithTxHash, updateOrderPaid } from "../_db/orders.ts";
+import { finalizeOrder, findOrdersWithTxHash } from "../_db/orders.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
 import { getLogDataByHash } from "../_db/logs_data.ts";
 import { tokenTransferEventTopic } from "npm:@citizenwallet/sdk";
@@ -106,7 +106,12 @@ Deno.serve(async (req) => {
   );
   if (orders && orders.length > 0) {
     for (const order of orders) {
-      await updateOrderPaid(supabaseClient, order.id, description);
+      await finalizeOrder(
+        supabaseClient,
+        order.id,
+        description,
+        order.status === "refund" ? "refund" : "paid",
+      );
     }
   }
 
