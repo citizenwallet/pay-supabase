@@ -126,8 +126,6 @@ Deno.serve(async (req) => {
     signerAccountAddress,
   );
 
-  const description = `refund from: ${place.name} for order #${order.id}`;
-
   let amount = order.total - order.fees;
   if (amount < 0) {
     amount = 0;
