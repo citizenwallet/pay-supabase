@@ -158,10 +158,12 @@ Deno.serve(async (req) => {
     value: formattedAmount.toString(),
   };
 
+  const description = `refund from: ${place.name} for order #${order.id}`;
+
   let extraData: UserOpExtraData | undefined;
   if (order.description) {
     extraData = {
-      description: order.description,
+      description,
     };
   }
 
