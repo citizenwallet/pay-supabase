@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
         );
     }
 
-    const community = communityConfig();
+    const community = await communityConfig();
 
     if (
         dest.toLowerCase() !== community.community.profile.address.toLowerCase()
