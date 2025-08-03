@@ -114,7 +114,7 @@ const main = async () => {
 
     console.log(`Total logs: ${total}`);
 
-    const community = communityConfig();
+    const community = await communityConfig();
 
     const limit = 100;
 

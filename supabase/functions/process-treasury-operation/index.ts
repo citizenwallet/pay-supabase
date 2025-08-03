@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
     });
   }
 
-  const community = communityConfig();
+  const community = await communityConfig();
 
   // Initialize Supabase client
   const supabaseClient = getServiceRoleClient();
