@@ -7,6 +7,7 @@ import {
     getProfile,
     insertAnonymousProfile,
     insertPlaceProfile,
+    ProfileWithTokenId,
     upsertProfile,
 } from "../_db/profiles.ts";
 import { getPlacesByAccount } from "../_db/places.ts";
@@ -30,7 +31,7 @@ export const ensureProfileExists = async (
     }
 
     // Check the smart contract for a profile
-    const profile = await getProfileFromAddress(
+    const profile: ProfileWithTokenId | null = await getProfileFromAddress(
         ipfsDomain,
         config,
         address,
@@ -46,7 +47,7 @@ export const ensureProfileExists = async (
         address,
     );
 
-    if (placeError || !placeData) {
+    if (placeError || !placeData || placeData.length === 0) {
         // There is none, let's create an anonymous profile in the database
         await insertAnonymousProfile(
             client,

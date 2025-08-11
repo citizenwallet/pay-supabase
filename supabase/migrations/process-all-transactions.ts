@@ -8,11 +8,15 @@ import {
     type ERC20TransferData,
     formatERC20TransactionValue,
 } from "../functions/_citizen-wallet/index.ts";
-import type { CommunityConfig } from "npm:@citizenwallet/sdk";
+import {
+    type CommunityConfig,
+    tokenTransferEventTopic,
+} from "npm:@citizenwallet/sdk";
 import {
     type Transaction,
     upsertTransaction,
 } from "../functions/_db/transactions.ts";
+import { ethers } from "npm:ethers";
 
 const processTransactions = async (
     supabaseClient: SupabaseClient,
@@ -38,15 +42,22 @@ const processTransactions = async (
     for (const log of logs) {
         const erc20TransferData = log.data as unknown as ERC20TransferData;
 
+        if (log.data && log.data["topic"] !== tokenTransferEventTopic) {
+            continue;
+        }
+
+        const from = ethers.getAddress(erc20TransferData.from);
+        const to = ethers.getAddress(erc20TransferData.to);
+
         await ensureProfileExists(
             supabaseClient,
             community,
-            erc20TransferData.from,
+            from,
         );
         await ensureProfileExists(
             supabaseClient,
             community,
-            erc20TransferData.to,
+            to,
         );
 
         let description = "";
@@ -64,10 +75,11 @@ const processTransactions = async (
         const transaction: Transaction = {
             id: log.hash,
             hash: log.tx_hash,
+            contract: contractAddress,
             created_at: log.created_at,
             updated_at: log.created_at,
-            from: erc20TransferData.from,
-            to: erc20TransferData.to,
+            from,
+            to,
             value: formatERC20TransactionValue(
                 community,
                 erc20TransferData.value,
