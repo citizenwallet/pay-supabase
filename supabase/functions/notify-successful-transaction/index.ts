@@ -34,7 +34,7 @@ Deno.serve(async (req) => {
     );
   }
 
-  const community = communityConfig();
+  const community = await communityConfig();
 
   if (dest.toLowerCase() !== community.primaryToken.address.toLowerCase()) {
     return new Response("Only process primary token transfers", {
